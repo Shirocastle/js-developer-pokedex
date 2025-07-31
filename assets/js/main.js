@@ -16,8 +16,11 @@ function convertPokemonToLi(pokemon) {
                     ${pokemon.types.map((type) => `<li class="type ${type}">${type}</li>`).join('')}
                 </ol>
 
-                <img src="${pokemon.photo}"
-                     alt="${pokemon.name}">
+                <img src="${pokemon.photo}" alt="${pokemon.name}" loading="lazy" onerror="${pokemon.photo}">
+            </div>
+            <div class="stats">
+            ${pokemon.stat.map(pokemonStats => `<div class="pokestats">${pokemonStats}</div>`).join("")}
+              <div class="pokestats">weight: ${pokemon.weight}</div>
             </div>
         </li>
     `
@@ -25,8 +28,7 @@ function convertPokemonToLi(pokemon) {
 
 function loadPokemonItens(offset, limit) {
     pokeApi.getPokemons(offset, limit).then((pokemons = []) => {
-        const newHtml = pokemons.map(convertPokemonToLi).join('')
-        pokemonList.innerHTML += newHtml
+        pokemonList.innerHTML += pokemons.map(convertPokemonToLi).join('')
     })
 }
 
@@ -45,3 +47,4 @@ loadMoreButton.addEventListener('click', () => {
         loadPokemonItens(offset, limit)
     }
 })
+
